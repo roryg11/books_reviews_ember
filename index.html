@@ -2,16 +2,32 @@
 <html>
   <head>
     <title></title>
+    <link rel="stylesheet" href="/css/semantic.min.css">
   </head>
   <body>
 
     <script type="text/x-handlebars">
-      <h1>BOOK APP</h1>
-      <a>{{#link-to "authors"}}Authors{{/link-to}}</a>
-      <a>{{#link-to "books"}}Books{{/link-to}}</a>
-      <p>Look up all your favorite books, authors and reviews</p>
+    <div class="ui two column page grid">
+      <div class="row">
+        <div class="center aligned starter column padding">
+          <h1 class="ui header">BOOK APP</h1>
+        </div>
+        <div class="ui four wide unordered vertical steps">
+          <div class="ui vertical menu">
+            <a class="item">{{#link-to "authors"}}Authors{{/link-to}}</a>
+            <a class="item">{{#link-to "books"}}Books{{/link-to}}</a>
+          </div>
+        </div>
+      </div>
 
-      {{outlet}}
+      <div class="ui twelve wide column card">
+        <div class="row">
+          <div class="column">
+            {{outlet}}
+          </div>
+        </div>
+      </div>
+    </div>
 
     </script>
 
@@ -41,7 +57,28 @@
     <script type="text/x-handlebars" id="books">
       <h1>BOOKS INDEX</h1>
       {{#each book in model}}
-        <p>{{book.title}}</p>
+        <a>{{#link-to 'books.show' book}}{{book.title}}{{/link-to}}</a>
+      {{/each}}
+
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" id="books/show">
+      <h1>{{this.title}}</h1>
+      <img {{bind-attr src=this.image}}/>
+      <p>{{this.genre}}</p>
+      <p>{{this.year}}</p>
+      <p>{{this.author.name}}</p>
+      <a>{{#link-to "books.reviews" this.reviews}}Reviews{{/link-to}}</a>
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" id="books/reviews">
+      <h1>Reviews</h1>
+      {{#each review in this}}
+      <p>{{review.book.title}}</p>
+      <p>{{review.userName}}</p>
+      <p>{{review.text}}</p>
       {{/each}}
     </script>
 

@@ -4,8 +4,8 @@ App.Book = DS.Model.extend({
   amazonLink: DS.attr('string'),
   genre: DS.attr('string'),
   year: DS.attr('string'),
-  author: DS.belongsTo('author'),
-  reviews: DS.hasMany('reviews')
+  author: DS.belongsTo('author', {async: true}),
+  reviews: DS.hasMany('reviews', {async: true})
 })
 
 App.Book.FIXTURES = [
