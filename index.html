@@ -7,22 +7,31 @@
   <body>
 
     <script type="text/x-handlebars">
-    <div class="ui two column page grid">
-      <div class="row">
+
+    <div class="ui page grid">
+      <div class="ui segment">
         <div class="center aligned starter column padding">
-          <h1 class="ui header">BOOK APP</h1>
-        </div>
-        <div class="ui four wide unordered vertical steps">
-          <div class="ui vertical menu">
-            <a class="item">{{#link-to "authors"}}Authors{{/link-to}}</a>
-            <a class="item">{{#link-to "books"}}Books{{/link-to}}</a>
-          </div>
+          <h1 class="ui header text center">BOOK APP</h1>
         </div>
       </div>
+      <div class="row">
+        <div class="four wide column">
+          <div class="ui vertical steps">
+            <div class="step">
+              <div class="content">
+                <a class="item">{{#link-to "authors"}}Authors{{/link-to}}</a>
+              </div>
+            </div>
+            <div class="step">
+              <div class="content">
+                <a class="item">{{#link-to "books"}}Books{{/link-to}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="ui twelve wide column card">
-        <div class="row">
-          <div class="column">
+        <div class="twelve wide column">
+          <div class="ui segment">
             {{outlet}}
           </div>
         </div>
@@ -36,50 +45,86 @@
     </script>
 
     <script type="text/x-handlebars" id="authors">
-      <h1>AUTHORS INDEX</h1>
-      {{#each author in model}}
-        <a>{{#link-to "authors.show" author}}{{author.name}}{{/link-to}}</a>
-      {{/each}}
-
-      {{outlet}}
+      <div class="ui two column grid">
+        <div class="column">
+          <div class="ui divided list">
+            <h2>Authors</h2>
+            {{#each author in model}}
+              <div class="item">
+                <div class="content">
+                  <a>{{#link-to "authors.show" author}}{{author.name}}{{/link-to}}</a>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+        <div class="column">
+          {{outlet}}
+        </div>
+      </div>
     </script>
 
     <script type="text/x-handlebars" id="authors/show">
-      <p>{{this.name}}</p>
+      <h2>{{this.name}}</h2>
       <img {{bind-attr src=this.image}}/>
-      <p>{{this.bio}}</p>
+      <p>Bio: {{this.bio}}</p>
 
-      {{#each book in this.books}}
-        <p>{{book.title}}</p>
-      {{/each}}
+      <h4><strong>Books</strong></h4>
+        {{#each book in this.books}}
+          <a>{{#link-to 'books.show' book}}{{book.title}}{{/link-to}}</a>
+        {{/each}}
     </script>
 
     <script type="text/x-handlebars" id="books">
-      <h1>BOOKS INDEX</h1>
-      {{#each book in model}}
-        <a>{{#link-to 'books.show' book}}{{book.title}}{{/link-to}}</a>
-      {{/each}}
-
-      {{outlet}}
+      <div class="ui two column grid">
+        <div class="column">
+          <div class="ui divided list">
+            <h2>Books</h2>
+            {{#each book in model}}
+              <div class="item">
+                <div class="content">
+                  <a>{{#link-to "books.show" book}}{{book.title}}{{/link-to}}</a>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+      </div>
+        <div class="column">
+          {{outlet}}
+        </div>
+      </div>
     </script>
 
     <script type="text/x-handlebars" id="books/show">
-      <h1>{{this.title}}</h1>
-      <img {{bind-attr src=this.image}}/>
-      <p>{{this.genre}}</p>
-      <p>{{this.year}}</p>
-      <p>{{this.author.name}}</p>
-      <a>{{#link-to "books.reviews" this.reviews}}Reviews{{/link-to}}</a>
-      {{outlet}}
+      <div class="ui card">
+        <div class="content">
+          <h1>{{this.title}}</h1>
+        </div>
+        <div class="content divider"></div>
+        <img class= "ui image rounded"{{bind-attr src=this.image}}/>
+        <div class="content">
+          <p><strong>Author:</strong> {{this.author.name}}</p>
+          <p>{{this.genre}} | {{this.year}}</p>
+          <a>{{#link-to "books.reviews" this.reviews}}Reviews{{/link-to}}</a>
+        </div>
+      </div>
     </script>
 
     <script type="text/x-handlebars" id="books/reviews">
-      <h1>Reviews</h1>
-      {{#each review in this}}
-      <p>{{review.book.title}}</p>
-      <p>{{review.userName}}</p>
-      <p>{{review.text}}</p>
-      {{/each}}
+      <div class="ui card">
+        <div class="content">
+          <h3>Reviews</h3>
+        </div>
+        <div class="content">
+          {{#each review in this}}
+          <h5><strong>{{review.book.title}}</strong></h5>
+          <div class="ui segment">
+            <p><strong>Username:</strong> {{review.userName}}</p>
+            <p>{{review.text}}</p>
+          </div>
+          {{/each}}
+        </div>
+      </div>
     </script>
 
     <script src="js/lib/jquery-1.10.2.js"></script>
